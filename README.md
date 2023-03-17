@@ -32,4 +32,3 @@ python3 manage.py runserver
 ### Примеры запросов:
 ```
 GET api/v1/posts/
-```
