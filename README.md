@@ -29,6 +29,6 @@ python3 manage.py migrate
 python3 manage.py runserver
 ```
 
-### Примеры запросов:
-```
-GET api/v1/posts/
+### Документация
+При запуске проекта, документация будет доступна по адресу:
+http://127.0.0.1:8000/redoc/#tag/api

@@ -5,6 +5,7 @@ from rest_framework.exceptions import PermissionDenied
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.response import Response
 
+from .mixins import ListCreateViewset
 from .serializers import (CommentSerializer, FollowSerializer, GroupSerializer,
                           PostSerializer)
 
@@ -41,8 +42,8 @@ class CommentViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     def get_queryset(self):
-        post_id = get_object_or_404(Post, id=self.kwargs.get('post_id'))
-        return Comment.objects.filter(post=post_id)
+        post = get_object_or_404(Post, id=self.kwargs.get('post_id'))
+        return post.comments
 
     def perform_create(self, serializer):
         post_id = self.kwargs.get('post_id')
@@ -61,10 +62,7 @@ class CommentViewSet(viewsets.ModelViewSet):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class FollowViewSet(viewsets.GenericViewSet,
-                    mixins.RetrieveModelMixin,
-                    mixins.ListModelMixin,
-                    mixins.CreateModelMixin):
+class FollowViewSet(ListCreateViewset):
     serializer_class = FollowSerializer
     permission_classes = [permissions.IsAuthenticated]
     filter_backends = (
@@ -73,7 +71,7 @@ class FollowViewSet(viewsets.GenericViewSet,
     search_fields = ('following__username',)
 
     def get_queryset(self):
-        return Follow.objects.filter(user=self.request.user)
+        return self.request.user.follower
 
     def perform_create(self, serializer):
         return serializer.save(user=self.request.user)
