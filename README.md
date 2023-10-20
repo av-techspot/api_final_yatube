@@ -13,7 +13,7 @@
 ### Как запустить проект:
 - _Клонировать репозиторий и перейти в него в командной строке:_
 ```
-git clone https://github.com/api_final_yatube.git
+git clone git@github.com:av-techspot/api_final_yatube.git
 cd api_final_yatube
 ```
 - _Cоздать и активировать виртуальное окружение:_
